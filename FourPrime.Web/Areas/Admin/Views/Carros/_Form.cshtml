@@ -1,0 +1,119 @@
+﻿@model FourPrime.Web.Areas.Admin.Models.CarroEditVm
+@using Microsoft.AspNetCore.Mvc.Rendering
+
+<div class="row">
+    <div class="col-md-6">
+
+        <!-- Modelo -->
+        <div class="form-group mb-3">
+            <label asp-for="Modelo" class="control-label"></label>
+            <input asp-for="Modelo" class="form-control" />
+            <span asp-validation-for="Modelo" class="text-danger"></span>
+        </div>
+
+        <!-- Ano -->
+        <div class="form-group mb-3">
+            <label asp-for="Ano" class="control-label"></label>
+            <input asp-for="Ano" class="form-control" />
+            <span asp-validation-for="Ano" class="text-danger"></span>
+        </div>
+
+        <!-- Preço -->
+        <div class="form-group mb-3">
+            <label asp-for="Preco" class="control-label"></label>
+            <input asp-for="Preco" class="form-control" />
+            <span asp-validation-for="Preco" class="text-danger"></span>
+        </div>
+
+        <!-- Mostrar em Destaque (apenas 1 checkbox) -->
+        <div class="form-check mt-2 mb-3">
+            <input class="form-check-input" asp-for="IsDestaque" id="IsDestaque" />
+            <label class="form-check-label" for="IsDestaque">Mostrar em Destaque</label>
+            <span asp-validation-for="IsDestaque" class="text-danger"></span>
+        </div>
+
+        <!-- Cor -->
+        <div class="form-group mb-3">
+            <label asp-for="Cor" class="control-label"></label>
+            <input asp-for="Cor" class="form-control" />
+            <span asp-validation-for="Cor" class="text-danger"></span>
+        </div>
+
+        <!-- Quilometragem -->
+        <div class="form-group mb-3">
+            <label asp-for="Quilometragem" class="control-label"></label>
+            <input asp-for="Quilometragem" class="form-control" />
+            <span asp-validation-for="Quilometragem" class="text-danger"></span>
+        </div>
+
+        <!-- Combustível -->
+        <div class="form-group mb-3">
+            <label asp-for="Combustivel" class="control-label"></label>
+            <input asp-for="Combustivel" class="form-control" />
+            <span asp-validation-for="Combustivel" class="text-danger"></span>
+        </div>
+
+    </div>
+
+    <div class="col-md-6">
+
+        <!-- Marca -->
+        <div class="form-group mb-3">
+            <label asp-for="MarcaId" class="control-label"></label>
+            <select asp-for="MarcaId" class="form-select"
+                    asp-items="@(new SelectList(Model.Marcas, "Id", "Nome", Model.MarcaId))">
+                <option value="">Selecione...</option>
+            </select>
+            <span asp-validation-for="MarcaId" class="text-danger"></span>
+        </div>
+
+        <!-- Categoria -->
+        <div class="form-group mb-3">
+            <label asp-for="CategoriaId" class="control-label"></label>
+            <select asp-for="CategoriaId" class="form-select"
+                    asp-items="@(new SelectList(Model.Categorias, "Id", "Nome", Model.CategoriaId))">
+                <option value="">Selecione...</option>
+            </select>
+            <span asp-validation-for="CategoriaId" class="text-danger"></span>
+        </div>
+
+        <!-- Tipo do Destaque (sempre liberado) -->
+        <div class="form-group mb-3">
+            <label asp-for="DestaqueTipo" class="control-label">Tipo do Destaque</label>
+            <select asp-for="DestaqueTipo" class="form-select" id="DestaqueTipoSelect">
+                <option value="">(Sem tipo)</option>
+                <option value="Blindados">Blindados</option>
+                <option value="Esportivos">Esportivos</option>
+                <option value="Luxos">Luxos</option>
+            </select>
+            <small class="text-muted">Pode selecionar com ou sem “Mostrar em Destaque”.</small>
+            <span asp-validation-for="DestaqueTipo" class="text-danger"></span>
+        </div>
+
+        <!-- Descrição -->
+        <div class="form-group mb-3">
+            <label asp-for="Descricao" class="control-label"></label>
+            <textarea asp-for="Descricao" class="form-control" rows="4"></textarea>
+            <span asp-validation-for="Descricao" class="text-danger"></span>
+        </div>
+
+        <!-- Upload da Imagem -->
+        <div class="form-group mb-3">
+            <label asp-for="ImagemFile" class="control-label"></label>
+            <input asp-for="ImagemFile" class="form-control" type="file" accept="image/*" />
+            <span asp-validation-for="ImagemFile" class="text-danger"></span>
+        </div>
+
+        <!-- Imagem atual (somente no Edit) -->
+        @if (!string.IsNullOrEmpty(Model.ImagemUrl))
+        {
+            <div class="form-group mb-3">
+                <label class="control-label">Imagem Atual:</label>
+                <div>
+                    <img src="@Model.ImagemUrl" class="img-thumbnail" style="max-height: 180px;" />
+                </div>
+            </div>
+        }
+
+    </div>
+</div>

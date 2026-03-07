@@ -1,0 +1,416 @@
+﻿@{
+    ViewData["Title"] = "Contato - FourPrime";
+}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Mulish:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+    <title>FourPrime | Garage - Contato</title>
+    <style>
+        /* ======= BASE E RESET ======= */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0f0f0f 100%);
+            font-family: 'Mulish', sans-serif;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+            body::before {
+                content: '';
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: radial-gradient(circle at 20% 80%, rgba(153, 1, 0, 0.15) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(153, 1, 0, 0.12) 0%, transparent 50%);
+                pointer-events: none;
+                z-index: -1;
+            }
+
+        /* ======= HERO SECTION ======= */
+        .contact-hero {
+            background: linear-gradient(rgba(10, 10, 10, 0.85), rgba(10, 10, 10, 0.9)), url('https://images.unsplash.com/photo-1486496572940-2bb2341fdbdf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80') center/cover no-repeat;
+            min-height: 40vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+            .contact-hero::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 4px;
+                background: linear-gradient(90deg, #990100, #ff3333, #990100);
+            }
+
+        /* ======= TÍTULOS ======= */
+        .section-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-weight: 700;
+            color: #ffe6e6;
+            text-shadow: 0 4px 15px rgba(153, 1, 0, 0.3);
+            position: relative;
+            display: inline-block;
+        }
+
+            .section-title::after {
+                content: '';
+                position: absolute;
+                bottom: -12px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 100px;
+                height: 4px;
+                background: linear-gradient(90deg, #990100, #ff3333);
+                border-radius: 2px;
+            }
+
+        /* ======= CARDS DE CONTATO ======= */
+        .contact-card {
+            background: rgba(21, 21, 21, 0.8);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(153, 1, 0, 0.3);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), 0 5px 15px rgba(153, 1, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transition: all 0.4s ease;
+            overflow: hidden;
+            position: relative;
+        }
+
+            .contact-card::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 3px;
+                background: linear-gradient(90deg, #990100, #ff3333, #990100);
+            }
+
+            .contact-card:hover {
+                transform: translateY(-8px);
+                box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), 0 15px 30px rgba(153, 1, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+            }
+
+        /* ======= ÍCONES ======= */
+        .contact-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #990100, #660000);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            box-shadow: 0 0 25px rgba(153, 1, 0, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+            .contact-icon i {
+                font-size: 1.8rem;
+                color: white;
+            }
+
+        /* ======= TEXTOS ======= */
+        .text-glow {
+            color: #ffe6e6;
+            text-shadow: 0 2px 10px rgba(153, 1, 0, 0.2);
+        }
+
+        .text-muted-custom {
+            color: #cfcfcf !important;
+        }
+
+        .contact-link {
+            color: #eaeaea;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+            .contact-link:hover {
+                color: #990100;
+                text-shadow: 0 0 10px rgba(153, 1, 0, 0.5);
+            }
+
+        /* ======= BOTÕES SOCIAIS ======= */
+        .social-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(26, 26, 26, 0.8);
+            border: 2px solid rgba(153, 1, 0, 0.4);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #eaeaea;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+            .social-icon:hover {
+                background: linear-gradient(135deg, #990100, #660000);
+                transform: translateY(-3px);
+                box-shadow: 0 8px 20px rgba(153, 1, 0, 0.3);
+                color: white;
+                border-color: transparent;
+            }
+
+        /* ======= MAPA ======= */
+        .map-container {
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(153, 1, 0, 0.3);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            position: relative;
+        }
+
+            .map-container::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 3px;
+                background: linear-gradient(90deg, #990100, #ff3333, #990100);
+                z-index: 1;
+            }
+
+        /* ======= INFORMAÇÕES DE CONTATO ======= */
+        .contact-info {
+            background: rgba(21, 21, 21, 0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(153, 1, 0, 0.2);
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(26, 26, 26, 0.5);
+            border-radius: 12px;
+            border-left: 4px solid #990100;
+        }
+
+        .info-icon {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #990100, #660000);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+        }
+
+            .info-icon i {
+                color: white;
+                font-size: 1.2rem;
+            }
+
+        /* ======= HORÁRIOS ======= */
+        .hours-card {
+            background: linear-gradient(135deg, rgba(153, 1, 0, 0.1), rgba(102, 0, 0, 0.05));
+            border: 1px solid rgba(153, 1, 0, 0.2);
+            border-radius: 15px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+        }
+
+        .hour-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+            .hour-item:last-child {
+                border-bottom: none;
+            }
+
+        /* ======= SEÇÕES ======= */
+        .section-spacing {
+            padding: 60px 0;
+        }
+
+        .divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #990100, transparent);
+            margin: 40px 0;
+        }
+    </style>
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+    <!-- Hero Section -->
+    <section class="contact-hero">
+        <div class="container">
+            <div class="row justify-content-center text-center">
+                <div class="col-lg-8">
+                    <h1 class="display-3 fw-bold text-glow mb-3">FALE CONOSCO</h1>
+                    <p class="lead text-light fs-4">Estamos aqui para transformar seu sonho em realidade</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Conteúdo principal -->
+    <main class="flex-grow-1">
+        <!-- Seção Contato -->
+        <section class="section-spacing">
+            <div class="container">
+                <div class="row justify-content-center mb-5">
+                    <div class="col-lg-8 text-center">
+                        <h2 class="section-title display-4 fw-bold mb-4">Entre em Contato</h2>
+                        <p class="text-muted-custom fs-5">Conecte-se conosco através dos nossos canais oficiais</p>
+                    </div>
+                </div>
+
+                <div class="row g-4 mb-5">
+                    <!-- WhatsApp -->
+                    <div class="col-md-6">
+                        <div class="contact-card h-100 p-4 text-center">
+                            <div class="contact-icon">
+                                <i class="bi bi-whatsapp"></i>
+                            </div>
+                            <h3 class="text-glow fw-bold mb-3">WhatsApp</h3>
+                            <p class="text-muted-custom mb-3">Atendimento rápido e personalizado</p>
+                            <a href="https://wa.me/5511910081082" class="contact-link fs-4 fw-bold">
+                                <i class="bi bi-whatsapp me-2"></i>(11) 91008-1082
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="col-md-6">
+                        <div class="contact-card h-100 p-4 text-center">
+                            <div class="contact-icon">
+                                <i class="bi bi-envelope"></i>
+                            </div>
+                            <h3 class="text-glow fw-bold mb-3">E-mail</h3>
+                            <p class="text-muted-custom mb-3">Respondemos em até 24h</p>
+                            <a href="mailto:fourprimegarage@gmail.com" class="contact-link fs-5">
+                                fourprimegarage@gmail.com
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Informações de Contato -->
+                <div class="row g-4 mb-5">
+                    <div class="col-lg-8 mx-auto">
+                        <div class="contact-info">
+                            <div class="info-item">
+                                <div class="info-icon">
+                                    <i class="bi bi-telephone"></i>
+                                </div>
+                                <div>
+                                    <h5 class="text-glow mb-1">Telefone Fixo</h5>
+                                    <p class="text-muted-custom mb-0">(11) 4002-8922</p>
+                                </div>
+                            </div>
+
+                            <div class="info-item">
+                                <div class="info-icon">
+                                    <i class="bi bi-geo-alt"></i>
+                                </div>
+                                <div>
+                                    <h5 class="text-glow mb-1">Endereço</h5>
+                                    <p class="text-muted-custom mb-0">Av. Paulista, 1000 - São Paulo/SP</p>
+                                </div>
+                            </div>
+
+                            <div class="info-item">
+                                <div class="info-icon">
+                                    <i class="bi bi-clock"></i>
+                                </div>
+                                <div>
+                                    <h5 class="text-glow mb-2">Horário de Funcionamento</h5>
+                                    <div class="hours-card">
+                                        <div class="hour-item">
+                                            <span class="text-light">Segunda à Sexta</span>
+                                            <span class="text-muted-custom">09:00 - 19:00</span>
+                                        </div>
+                                        <div class="hour-item">
+                                            <span class="text-light">Sábado</span>
+                                            <span class="text-muted-custom">09:00 - 14:00</span>
+                                        </div>
+                                        <div class="hour-item">
+                                            <span class="text-light">Domingo</span>
+                                            <span class="text-muted-custom">Fechado</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Redes Sociais -->
+                <div class="row justify-content-center mb-5">
+                    <div class="col-lg-6 text-center">
+                        <h4 class="text-glow fw-bold mb-4">Siga-nos nas Redes Sociais</h4>
+                        <div class="d-flex justify-content-center gap-4">
+                            <a href="#" class="social-icon">
+                                <i class="bi bi-facebook fs-5"></i>
+                            </a>
+                            <a href="#" class="social-icon">
+                                <i class="bi bi-twitter fs-5"></i>
+                            </a>
+                            <a href="https://instagram.com/fourprimegarage/" class="social-icon">
+                                <i class="bi bi-instagram fs-5"></i>
+                            </a>
+                            <a href="#" class="social-icon">
+                                <i class="bi bi-youtube fs-5"></i>
+                            </a>
+                            <a href="#" class="social-icon">
+                                <i class="bi bi-linkedin fs-5"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <!-- Mapa -->
+                <div class="row justify-content-center">
+                    <div class="col-lg-10">
+                        <h4 class="text-glow fw-bold text-center mb-4">Visite Nossa Loja</h4>
+                        <div class="map-container">
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.674959836961!2d-46.566078823839355!3d-23.544190378811656!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce5e65af94193b%3A0x72be6439755b0c5!2sT-Car%20Imports!5e0!3m2!1spt-BR!2sbr!4v1753731367716!5m2!1spt-BR!2sbr"
+                                    width="100%"
+                                    height="400"
+                                    style="border: 0; display: block;"
+                                    allowfullscreen=""
+                                    loading="lazy"
+                                    referrerpolicy="no-referrer-when-downgrade">
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

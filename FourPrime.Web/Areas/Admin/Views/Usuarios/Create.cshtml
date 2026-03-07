@@ -1,0 +1,69 @@
+﻿@model FourPrime.Web.Areas.Admin.Models.UsuarioEditVm
+
+@{
+    ViewData["Title"] = "Novo Usuário";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">@ViewData["Title"]</h1>
+        <a asp-action="Index" class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm">
+            <i class="fas fa-arrow-left fa-sm text-white-50"></i> Voltar
+        </a>
+    </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Dados do Usuário</h6>
+        </div>
+        <div class="card-body">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="form-group">
+                    <label asp-for="NomeCompleto" class="control-label"></label>
+                    <input asp-for="NomeCompleto" class="form-control" />
+                    <span asp-validation-for="NomeCompleto" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Email" class="control-label"></label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Role" class="control-label"></label>
+                    <select asp-for="Role" class="form-control" asp-items="@(new SelectList(Model.Roles ?? new List<string>()))">
+                        <option value="">-- Selecione uma Função --</option>
+                    </select>
+                    <span asp-validation-for="Role" class="text-danger"></span>
+                </div>
+
+                <div class="form-group form-check">
+                    <input asp-for="Ativo" class="form-check-input" />
+                    <label asp-for="Ativo" class="form-check-label"></label>
+                </div>
+
+                <div class="alert alert-info">
+                    <strong>Informação:</strong> A senha padrão para novos usuários é <strong>Senha@123</strong>.
+                    O usuário poderá alterá-la após o primeiro login.
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Criar
+                    </button>
+                    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

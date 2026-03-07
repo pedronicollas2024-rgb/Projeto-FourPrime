@@ -1,0 +1,97 @@
+﻿@* @model FourPrime.Web.Models.CatalogViewModel
+
+
+
+<section class="catalog-section py-5">
+    <div class="container">
+        <!-- Filtros -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <form method="post" id="filterForm">
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" placeholder="Modelo" name="Modelo" value="@Model.Filter.Modelo">
+                        </div>
+                        <div class="col-md-2">
+                            <select class="form-select" name="MarcaId">
+                                <option value="">Todas as Marcas</option>
+                                @foreach (var marca in Model.Marcas)
+                                {
+                                    <option value="@marca.Id" selected="@(Model.Filter.MarcaId == marca.Id)">@marca.Nome</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <select class="form-select" name="CategoriaId">
+                                <option value="">Todas as Categorias</option>
+                                @foreach (var categoria in Model.Categorias)
+                                {
+                                    <option value="@categoria.Id" selected="@(Model.Filter.CategoriaId == categoria.Id)">@categoria.Nome</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <input type="number" class="form-control" placeholder="Ano Mín" name="AnoMin" value="@Model.Filter.AnoMin">
+                        </div>
+                        <div class="col-md-2">
+                            <input type="number" class="form-control" placeholder="Ano Máx" name="AnoMax" value="@Model.Filter.AnoMax">
+                        </div>
+                        <div class="col-md-1">
+                            <button type="submit" class="btn btn-primary w-100">Filtrar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Cards de Carros -->
+        <div class="row" id="carrosContainer">
+            @if (Model.Carros.Any())
+            {
+                foreach (var carro in Model.Carros)
+                {
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 carro-card">
+                            <div class="card-body">
+                                <h5 class="card-title">@carro.Modelo</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">@carro.Marca - @carro.Ano</h6>
+                                <p class="card-text">
+                                    <strong>Cor:</strong> @carro.Cor<br>
+                                    <strong>Preço:</strong> R$ @carro.Preco.ToString("N2")<br>
+                                    <strong>Km:</strong> @carro.Quilometragem.ToString("N0") km<br>
+                                    <strong>Combustível:</strong> @carro.Combustivel
+                                </p>
+                            </div>
+                            <div class="card-footer">
+                                <small class="text-muted">@carro.Categoria</small>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="col-12">
+                    <div class="alert alert-info text-center">
+                        Nenhum carro encontrado com os filtros aplicados.
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<script>
+    // JS para melhorar UX dos filtros
+    document.addEventListener('DOMContentLoaded', function() {
+        const filterForm = document.getElementById('filterForm');
+        const selects = filterForm.querySelectorAll('select');
+
+        // Auto-submit quando select muda
+        selects.forEach(select => {
+            select.addEventListener('change', function() {
+                filterForm.submit();
+            });
+        });
+    });
+</script> *@

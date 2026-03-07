@@ -1,0 +1,829 @@
+﻿@using System.Linq
+@model FourPrime.Web.Models.CatalogViewModel
+@using FourPrime.Application.DTOs
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Fontes externas -->
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Mulish:ital,wght@0,200..1000;1,200..1000&display=swap"
+          rel="stylesheet" />
+
+    <!-- Framework Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet" />
+
+    <!-- Ícones Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+          rel="stylesheet" />
+
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" href="css/site.css" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/img/Logo1.png">
+
+    <title>FourPrime | Garage</title>
+
+    <style>
+        /* ======= BASE E RESET ======= */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            margin: 0 !important;
+            padding: 0 !important;
+            height: 100% !important;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0f0f0f 100%) !important;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            font-family: 'Mulish', sans-serif;
+            position: relative;
+        }
+
+            body::before {
+                content: '';
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: radial-gradient(circle at 20% 80%, rgba(153, 1, 0, 0.15) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(153, 1, 0, 0.12) 0%, transparent 50%);
+                pointer-events: none;
+                z-index: -1;
+            }
+
+        /* ======= FILTROS AVANÇADOS ======= */
+        .filter-advanced {
+            background: rgba(21, 21, 21, 0.8);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(153, 1, 0, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            margin-bottom: 30px;
+        }
+
+        .filter-title {
+            font-family: 'Bebas Neue', sans-serif;
+            color: #ffe6e6;
+            text-align: center;
+            font-size: 2.2rem;
+            margin-bottom: 25px;
+            text-shadow: 0 2px 10px rgba(153, 1, 0, 0.3);
+        }
+
+        .filter-search-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr auto;
+            gap: 15px;
+            align-items: end;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .filter-label {
+            color: #cfcfcf;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .filter-select {
+            background: rgba(26, 26, 26, 0.8);
+            border: 1.5px solid rgba(153, 1, 0, 0.4);
+            color: #eaeaea;
+            padding: 12px 15px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+            .filter-select:focus {
+                background: rgba(31, 31, 31, 0.9);
+                border-color: #990100;
+                box-shadow: 0 0 0 0.2rem rgba(153, 1, 0, 0.25);
+                color: #eaeaea;
+                outline: none;
+            }
+
+        .search-btn-wrapper {
+            display: flex;
+            align-items: end;
+        }
+
+        .search-btn {
+            background: linear-gradient(135deg, #990100, #660000);
+            border: none;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+            .search-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 20px rgba(153, 1, 0, 0.4);
+            }
+
+        /* ======= CARDS PREMIUM ======= */
+        .vehicle-card {
+            background: rgba(21, 21, 21, 0.8);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(153, 1, 0, 0.3);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), 0 5px 15px rgba(153, 1, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: hidden;
+            position: relative;
+            height: 100%;
+        }
+
+            .vehicle-card::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 3px;
+                background: linear-gradient(90deg, #990100, #ff3333, #990100);
+                z-index: 2;
+            }
+
+            .vehicle-card:hover {
+                transform: translateY(-10px) scale(1.02);
+                box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), 0 15px 30px rgba(153, 1, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+            }
+
+        /* ======= IMAGENS DOS CARDS ======= */
+        .card-img-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 18px 18px 0 0;
+        }
+
+        .vehicle-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .vehicle-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .card-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: linear-gradient(135deg, #990100, #660000);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            z-index: 3;
+        }
+
+        /* ======= CORPO DOS CARDS ======= */
+        .card-body-premium {
+            padding: 20px;
+            background: rgba(26, 26, 26, 0.7);
+            backdrop-filter: blur(10px);
+        }
+
+        .card-title-premium {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.4rem;
+            color: #ffe6e6;
+            text-shadow: 0 2px 8px rgba(153, 1, 0, 0.3);
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        .card-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .vehicle-year {
+            background: rgba(153, 1, 0, 0.2);
+            color: #ff6b6b;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .vehicle-km {
+            color: #cfcfcf;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        /* ======= BOTÕES DE PREÇO ======= */
+        .price-btn {
+            background: linear-gradient(135deg, #990100, #660000);
+            border: none;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            width: 100%;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+        }
+
+            .price-btn::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+                transition: left 0.6s;
+            }
+
+            .price-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 20px rgba(153, 1, 0, 0.4);
+                color: white;
+            }
+
+                .price-btn:hover::before {
+                    left: 100%;
+                }
+
+        /* ======= SEÇÕES E TÍTULOS ======= */
+        .section-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-weight: 700;
+            color: #ffe6e6;
+            text-shadow: 0 4px 15px rgba(153, 1, 0, 0.3);
+            position: relative;
+            display: inline-block;
+            margin-bottom: 30px;
+        }
+
+            .section-title::after {
+                content: '';
+                position: absolute;
+                bottom: -8px;
+                left: 0;
+                width: 80px;
+                height: 3px;
+                background: linear-gradient(90deg, #990100, #ff3333);
+                border-radius: 2px;
+            }
+
+        .section-spacing {
+            padding: 60px 0;
+        }
+
+        /* ======= VÍDEO PROMOCIONAL ======= */
+        .promo-video {
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(153, 1, 0, 0.3);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            height: 100%;
+        }
+
+            .promo-video video {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+        .video-caption {
+            background: rgba(21, 21, 21, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-top: 1px solid rgba(153, 1, 0, 0.3);
+        }
+
+            .video-caption h5 {
+                color: #ffe6e6;
+                font-weight: 700;
+                margin-bottom: 8px;
+            }
+
+            .video-caption p {
+                color: #cfcfcf;
+                margin-bottom: 0;
+            }
+
+        /* ======= BOTÕES DE FILTRO ======= */
+        .filter-btn-group {
+            background: rgba(21, 21, 21, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(153, 1, 0, 0.3);
+            border-radius: 12px;
+            padding: 8px;
+        }
+
+        .filter-btn {
+            background: transparent;
+            border: 1px solid rgba(153, 1, 0, 0.4);
+            color: #cfcfcf;
+            padding: 8px 20px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+            .filter-btn:hover,
+            .filter-btn.active {
+                background: linear-gradient(135deg, #990100, #660000);
+                color: white;
+                border-color: transparent;
+                transform: translateY(-1px);
+            }
+
+        /* ======= MAPA ======= */
+        .map-container-premium {
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(153, 1, 0, 0.3);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            position: relative;
+        }
+
+            .map-container-premium::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 3px;
+                background: linear-gradient(90deg, #990100, #ff3333, #990100);
+                z-index: 1;
+            }
+
+        /* ======= TEXTOS ======= */
+        .text-glow {
+            color: #ffe6e6;
+            text-shadow: 0 2px 10px rgba(153, 1, 0, 0.2);
+        }
+
+        .text-muted-custom {
+            color: #cfcfcf !important;
+        }
+    </style>
+</head>
+<style>
+    /* DIAGNÓSTICO - identifica elementos com altura extra */
+    * {
+        /* border: 1px solid red !important; */
+    }
+
+    html, body {
+        margin: 0 !important;
+        padding: 0 !important;
+        height: 100% !important;
+    }
+
+    body {
+        background-color: #212529 !important; /* Mostra onde termina o body */
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+</style>
+<body>
+    <main>
+
+
+        <!-- ========== BANNER HERO ========== -->
+        <section class="hero-banner">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-12">
+                        <div class="hero-content text-center">
+<!-- Filtros Avançados --> 
+                            <div class="filter-advanced">
+                                <h3 class="filter-title">Encontre Seu Veículo</h3>
+
+                                <form asp-controller="Home" asp-action="Resultados" method="get" class="filter-form">
+
+                                    <!-- Busca por texto -->
+                                    <div class="filter-group">
+                                        <label class="filter-label" for="TermoPesquisa">O que procura?</label>
+                                        <input type="text"
+                                               id="TermoPesquisa"
+                                               name="TermoPesquisa"
+                                               class="filter-control"
+                                               placeholder="Modelo, cor, categoria..."
+                                               value="@Context.Request.Query["TermoPesquisa"]" />
+                                    </div>
+
+                                    <!-- Marcas -->
+                                    <div class="filter-group">
+                                        <label class="filter-label" for="MarcaId">Todas as Marcas</label>
+                                        <select name="MarcaId" id="MarcaId" class="filter-control">
+                                            <option value="">Selecione uma marca</option>
+                                            @foreach (var marca in Model.Marcas)
+                                            {
+                                                <option value="@marca.Id" selected="@(Context.Request.Query["MarcaId"] == marca.Id.ToString())">
+                                                    @marca.Nome
+                                                </option>
+                                            }
+                                        </select>
+                                    </div>
+
+                                    <!-- Categorias -->
+                                    <div class="filter-group">
+                                        <label class="filter-label" for="CategoriaId">Todas as Categorias</label>
+                                        <select name="CategoriaId" id="CategoriaId" class="filter-control">
+                                            <option value="">Selecione uma categoria</option>
+                                            @foreach (var categoria in Model.Categorias)
+                                            {
+                                                <option value="@categoria.Id" selected="@(Context.Request.Query["CategoriaId"] == categoria.Id.ToString())">
+                                                    @categoria.Nome
+                                                </option>
+                                            }
+                                        </select>
+                                    </div>
+
+                                    <!-- Botão -->
+                                    <button type="submit" class="search-btn" aria-label="Buscar">
+                                        <i class="bi bi-search"></i>
+                                    </button>
+
+                                </form>
+                            </div>
+
+                                    <div class="divider"></div>
+
+                            <!-- Categorias com Botões Redondos e Ícones -->
+                            <div class="category-section">
+                                <a href="#sedan" class="category-btn">
+                                    <img src="https://img.icons8.com/ios-filled/50/sedan.png" alt="Sedan" class="category-icon">
+                                    <span class="category-text">Sedan</span>
+                                </a>
+                                <a href="#suv" class="category-btn">
+                                    <img src="https://img.icons8.com/ios-filled/50/suv.png" alt="SUV" class="category-icon">
+                                    <span class="category-text">SUV</span>
+                                </a>
+                                <a href="#conversivel" class="category-btn">
+                                    <img src="https://img.icons8.com/ios-filled/50/convertible.png" alt="Conversível" class="category-icon">
+                                    <span class="category-text">Conversível</span>
+                                </a>
+                                <a href="#blindados" class="category-btn">
+                                    <img src="https://img.icons8.com/quill/100/shield.png" alt="Blindados" class="category-icon">
+                                    <span class="category-text">Blindados</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ========== SEÇÃO DE VEÍCULOS ========== -->
+        <section id="cards" class="section-spacing">
+            <div class="container">
+                <div class="row">
+                    <!-- Vídeo Promocional -->
+                    <div class="col-lg-4 mb-4 mb-lg-0 d-flex flex-column">
+                        <div class="promo-video flex-grow-1">
+                            <video autoplay muted loop playsinline>
+                                <source src="/img/Standard_Mode_9x16_C_mera_se_move_lentamente_dentr.mp4" type="video/mp4" />
+                                Seu navegador não suporta vídeos.
+                            </video>
+                            <div class="video-caption text-center">
+                                <h5 class="fw-bold">Qualidade. Exclusividade. Performance.</h5>
+                                <p class="mb-0">Conheça o melhor do mercado automotivo premium.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Veículos em Destaque -->
+                    <div class="col-lg-8">
+                        <div class="row g-4">
+                            <!-- Cabeçalho da Seção -->
+                            <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+                                <h2 class="section-title">Veículos em Destaque</h2>
+                            </div>
+
+                            @if (Model?.Destaques != null && Model.Destaques.Count > 0)
+                            {
+                                foreach (var carro in Model.Destaques)
+                                {
+                                    <div class="col-md-6 col-xl-4">
+                                        <div class="vehicle-card">
+                                            <div class="card-img-container">
+                                                <span class="card-badge">DESTAQUE</span>
+
+                                                <img src="@(string.IsNullOrWhiteSpace(carro.ImagemUrl) ? "/img/Logo1.png" : carro.ImagemUrl)"
+                                                     alt="@carro.Modelo"
+                                                     onerror="this.src='/img/Logo1.png';" />
+                                            </div>
+
+                                            <div class="card-body-premium">
+                                                <h5 class="card-title-premium">@carro.Modelo.ToUpper()</h5>
+
+                                                <div class="card-info">
+                                                    <span class="vehicle-year">@carro.Ano</span>
+                                                    <span class="vehicle-km">@carro.Quilometragem.ToString("N0") km</span>
+                                                </div>
+
+                                                <a asp-controller="Home"
+                                                   asp-action="Detalhes"
+                                                   asp-route-id="@carro.Id"
+                                                   class="price-btn">
+                                                    R$ @carro.Preco.ToString("N0")
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="col-12">
+                                    <div class="alert alert-dark border border-danger text-center">
+                                        <strong>Nenhum veículo em destaque.</strong><br />
+                                        Marque <code>IsDestaque</code> no Admin e salve.
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+        </section>
+        <!-- Destaques da Loja (DINÂMICO) -->
+        <div class="col-lg-20 mt-5" id="loja-destaques">
+
+            <div class="row g-4">
+                <!-- Cabeçalho Destaques -->
+                <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+                    <h2 class="section-title">Destaques da Loja</h2>
+
+                    <div class="filter-btn-group" role="tablist" aria-label="Filtros de destaque">
+                        <button type="button" class="filter-btn active" data-filter="Blindados">Blindados</button>
+                        <button type="button" class="filter-btn" data-filter="Esportivos">Esportivos</button>
+                        <button type="button" class="filter-btn" data-filter="Luxos">Luxos</button>
+                    </div>
+                </div>
+
+                @if (Model?.DestaquesLoja != null && Model.DestaquesLoja.Count > 0)
+                {
+                    foreach (var carro in Model.DestaquesLoja)
+                    {
+                        // garante que tem tipo (se vier vazio, não quebra filtro)
+                        var tipo = string.IsNullOrWhiteSpace(carro.DestaqueTipo) ? "Luxos" : carro.DestaqueTipo;
+
+                        <div class="col-md-6 col-xl-3">
+                            <div class="vehicle-card" data-category="@tipo">
+                                <div class="card-img-container">
+                                    <span class="card-badge">@tipo.ToUpper()</span>
+
+                                    <img src="@carro.ImagemUrl"
+                                         alt="@carro.Modelo"
+                                         onerror="this.src='/img/Logo1.png';" />
+                                </div>
+
+                                <div class="card-body-premium">
+                                    <h5 class="card-title-premium">@carro.Modelo.ToUpper()</h5>
+
+                                    <div class="card-info">
+                                        <span class="vehicle-year">@carro.Ano</span>
+                                        <span class="vehicle-km">@carro.Quilometragem.ToString("N0") km</span>
+                                    </div>
+
+                                    <a asp-controller="Home"
+                                       asp-action="Detalhes"
+                                       asp-route-id="@carro.Id"
+                                       class="price-btn">
+                                        R$ @carro.Preco.ToString("N0")
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="col-12">
+                        <div class="alert alert-light border border-danger text-center">
+                            <strong>Nenhum destaque da loja configurado.</strong><br />
+                            Preencha <code>DestaqueTipo</code> (Blindados / Esportivos / Luxos) no Admin e salve.
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+
+                <!-- Mapa -->
+                <div class="container mt-5">
+                    <div class="map-container-premium">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.674959836961!2d-46.566078823839355!3d-23.544190378811656!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce5e65af94193b%3A0x72be6439755b0c5!2sT-Car%20Imports!5e0!3m2!1spt-BR!2sbr!4v1753731367716!5m2!1spt-BR!2sbr"
+                                width="100%"
+                                height="300"
+                                style="border: 0; display: block;"
+                                allowfullscreen=""
+                                loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade"
+                                title="Localização da Loja"></iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+    </main>
+
+
+    <!-- ========== SCRIPTS ========== -->
+
+
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.min.js"
+            integrity="sha384-7qAoOXltbVP82dhxHAUje59V5r2YsVfBafyUDxEdApLPmcdhBPg1DKg1ERo0BZlK"
+            crossorigin="anonymous"></script>
+
+    <!-- Script para alternância de tema -->
+    <!-- Script para alternância de tema -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const themeToggle = document.getElementById('themeToggle');
+            const themeIcon = document.getElementById('themeIcon');
+            const themeText = document.getElementById('themeText');
+            const body = document.body;
+            const root = document.documentElement;
+
+            // Função para atualizar a logo
+            function updateLogo(theme) {
+                const logo = document.getElementById('mainLogo');
+                if (!logo) return;
+
+                if (theme === 'light') {
+                    logo.src = logo.getAttribute('data-logo-light');
+                } else {
+                    logo.src = logo.getAttribute('data-logo-dark');
+                }
+            }
+
+            // Só liga o toggle se existir (evita erro em páginas sem botão)
+            if (themeToggle && themeIcon && themeText) {
+                const savedTheme = localStorage.getItem('theme');
+                if (savedTheme === 'light') {
+                    enableLightTheme();
+                } else {
+                    updateLogo('dark');
+                }
+
+                themeToggle.addEventListener('click', function () {
+                    if (body.classList.contains('light-theme')) {
+                        disableLightTheme();
+                    } else {
+                        enableLightTheme();
+                    }
+                });
+            }
+
+            function enableLightTheme() {
+                body.classList.add('light-theme');
+                root.setAttribute('data-theme', 'light');
+                themeIcon?.classList.remove('bi-sun-fill');
+                themeIcon?.classList.add('bi-moon-fill');
+                if (themeText) themeText.textContent = 'Escuro';
+                localStorage.setItem('theme', 'light');
+                updateLogo('light');
+            }
+
+            function disableLightTheme() {
+                body.classList.remove('light-theme');
+                root.removeAttribute('data-theme');
+                themeIcon?.classList.remove('bi-moon-fill');
+                themeIcon?.classList.add('bi-sun-fill');
+                if (themeText) themeText.textContent = 'Claro';
+                localStorage.setItem('theme', 'dark');
+                updateLogo('dark');
+            }
+
+            // Controle do preço personalizado (só se existir)
+            const precoSelect = document.getElementById('precoSelect');
+            if (precoSelect) {
+                precoSelect.addEventListener('change', function () {
+                    const customPriceDiv = document.getElementById('customPrice');
+                    if (!customPriceDiv) return;
+                    customPriceDiv.style.display = (this.value === 'custom') ? 'flex' : 'none';
+                });
+            }
+
+            // Função de busca (se existir)
+            const searchBtn = document.querySelector('.search-btn');
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function () {
+                    const marcaEl = document.getElementById('marcaSelect');
+                    const modeloEl = document.getElementById('modeloSelect');
+                    const precoEl = document.getElementById('precoSelect');
+                    const precoMinEl = document.getElementById('precoMin');
+                    const precoMaxEl = document.getElementById('precoMax');
+
+                    if (!marcaEl || !modeloEl || !precoEl || !precoMinEl || !precoMaxEl) return;
+
+                    const marca = marcaEl.value;
+                    const modelo = modeloEl.value;
+                    const preco = precoEl.value;
+                    const precoMin = precoMinEl.value;
+                    const precoMax = precoMaxEl.value;
+
+                    console.log('Buscar:', { marca, modelo, preco, precoMin, precoMax });
+                    alert('Funcionalidade de busca em desenvolvimento!');
+                });
+            }
+
+            // Navegação para categorias (só se existir o select modeloSelect)
+            const modeloSelect = document.getElementById('modeloSelect');
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    if (!modeloSelect) return;
+                    const categoria = this.querySelector('.category-text')?.textContent?.toLowerCase() || '';
+                    modeloSelect.value = categoria;
+                    document.getElementById('cards')?.scrollIntoView({ behavior: 'smooth' });
+                });
+            });
+        });
+    </script>
+
+    <!-- ✅ FILTRO corrigido: afeta SOMENTE a seção "Destaques da Loja" -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const loja = document.getElementById('loja-destaques'); // adicione esse id no container da seção
+            if (!loja) return;
+
+            const filterButtons = loja.querySelectorAll('.filter-btn');
+
+            function applyFilter(filter) {
+                loja.querySelectorAll('.vehicle-card').forEach(card => {
+                    const cats = (card.dataset.category || '').toLowerCase();
+                    const column = card.closest('[class*="col-"]');
+                    if (!column) return;
+
+                    if (!filter || filter === 'all' || cats.includes(filter.toLowerCase())) {
+                        column.classList.remove('d-none');
+                    } else {
+                        column.classList.add('d-none');
+                    }
+                });
+            }
+
+            filterButtons.forEach(btn => {
+                btn.addEventListener('click', function () {
+                    filterButtons.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    applyFilter(this.dataset.filter);
+                });
+            });
+
+            const initial = loja.querySelector('.filter-btn.active');
+            if (initial) applyFilter(initial.dataset.filter);
+        });
+    </script>
+
+</body>
+</html>

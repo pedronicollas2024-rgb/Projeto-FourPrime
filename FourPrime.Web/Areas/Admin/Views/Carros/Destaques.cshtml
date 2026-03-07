@@ -1,0 +1,627 @@
+﻿@{
+    Layout = null;
+}
+@model IEnumerable<FourPrime.Domain.Entities.Carro>
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/img/Logo1.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+    <title>FourPrime Garage - Gerenciar Carros</title>
+
+    <style>
+        /* ======= TEMA PRINCIPAL ======= */
+        body {
+            background: #0f0f0f;
+            color: #eaeaea;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* ======= SIDEBAR ======= */
+        .sidebar {
+            position: relative;
+            box-shadow: 0 0 25px rgba(153, 1, 0, 0.25);
+            border-right: 1px solid rgba(153, 1, 0, 0.25);
+            background: #151515;
+            min-height: 100vh;
+        }
+
+            .sidebar:before {
+                content: "";
+                position: absolute;
+                right: -2px;
+                top: 0;
+                width: 2px;
+                height: 100%;
+                background: linear-gradient(180deg, #990100, #7a0000);
+                box-shadow: 0 0 15px #990100, 0 0 30px #990100, 0 0 45px #990100;
+            }
+
+            .sidebar .nav-link {
+                color: #cfcfcf;
+                padding: 12px 20px;
+                margin: 4px 0;
+                border-radius: 8px;
+                transition: 0.2s;
+                text-decoration: none;
+            }
+
+                .sidebar .nav-link:hover,
+                .sidebar .nav-link.active {
+                    background: rgba(153, 1, 0, 0.18);
+                    color: #ff2a2a;
+                    font-weight: 500;
+                }
+
+                .sidebar .nav-link i {
+                    margin-right: 10px;
+                }
+
+            .sidebar h4 {
+                color: #ffe5e5 !important;
+                text-shadow: 0 0 8px #990100, 0 0 15px #990100;
+                font-weight: 700;
+                letter-spacing: 1px;
+            }
+
+        /* ======= MAIN CONTENT ======= */
+        .main-content {
+            background-color: #0c0c0c;
+            color: #eaeaea;
+            min-height: 100vh;
+        }
+
+        /* ======= HEADER STYLES ======= */
+        .page-header {
+            background: linear-gradient(135deg, #1a1a1a, #151515);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(153, 1, 0, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .page-title {
+            color: #ffe6e6;
+            font-weight: 700;
+            font-size: 2.2rem;
+            text-shadow: 0 2px 10px rgba(153, 1, 0, 0.3);
+            margin-bottom: 10px;
+        }
+
+        .page-subtitle {
+            color: #cfcfcf;
+            font-size: 1.1rem;
+        }
+
+        /* ======= SEARCH & FILTERS ======= */
+        .search-container {
+            background: rgba(21, 21, 21, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(153, 1, 0, 0.3);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .search-box {
+            background: #1a1a1a;
+            border: 1px solid rgba(153, 1, 0, 0.3);
+            border-radius: 12px;
+            color: #eaeaea;
+            padding: 12px 20px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+            .search-box:focus {
+                background: #1a1a1a;
+                border-color: #990100;
+                box-shadow: 0 0 15px rgba(153, 1, 0, 0.4);
+                color: #eaeaea;
+            }
+
+        /* ======= CARDS GRID ======= */
+        .cars-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .car-card {
+            background: rgba(21, 21, 21, 0.8);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(153, 1, 0, 0.3);
+            border-radius: 20px;
+            padding: 0;
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            position: relative;
+        }
+
+            .car-card::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 4px;
+                background: linear-gradient(90deg, #990100, #ff3333, #990100);
+                z-index: 2;
+            }
+
+            .car-card:hover {
+                transform: translateY(-8px);
+                box-shadow: 0 20px 40px rgba(153, 1, 0, 0.2);
+                border-color: rgba(153, 1, 0, 0.5);
+            }
+
+        .car-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 1px solid rgba(153, 1, 0, 0.3);
+        }
+
+        .car-image-placeholder {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #2a2a2a, #1a1a1a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #990100;
+            font-size: 3rem;
+            border-bottom: 1px solid rgba(153, 1, 0, 0.3);
+        }
+
+        .car-content {
+            padding: 25px;
+        }
+
+        .car-header {
+            display: flex;
+            justify-content: between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .car-title {
+            color: #ffe6e6;
+            font-weight: 700;
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+            line-height: 1.3;
+        }
+
+        .car-brand {
+            color: #990100;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .car-price {
+            background: linear-gradient(135deg, #990100, #660000);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-weight: 800;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 15px rgba(153, 1, 0, 0.3);
+        }
+
+        .car-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .detail-label {
+            color: #cfcfcf;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .detail-value {
+            color: #ffe6e6;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .car-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: space-between;
+        }
+
+        /* ======= BOTÕES ======= */
+        .btn-primary {
+            background: linear-gradient(135deg, #990100, #7a0000);
+            border: none;
+            border-radius: 10px;
+            padding: 10px 20px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+            .btn-primary:hover {
+                filter: brightness(1.2);
+                transform: translateY(-2px);
+                box-shadow: 0 8px 20px rgba(153, 1, 0, 0.4);
+            }
+
+        .btn-outline-primary {
+            border: 2px solid #990100;
+            color: #990100;
+            border-radius: 10px;
+            padding: 10px 20px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+            .btn-outline-primary:hover {
+                background: #990100;
+                color: white;
+                transform: translateY(-2px);
+                box-shadow: 0 8px 20px rgba(153, 1, 0, 0.3);
+            }
+
+        .btn-sm-custom {
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .btn-view {
+            background: rgba(26, 26, 26, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #cfcfcf;
+        }
+
+            .btn-view:hover {
+                background: rgba(255, 255, 255, 0.1);
+                color: white;
+            }
+
+        .btn-edit {
+            background: rgba(255, 193, 7, 0.1);
+            border: 1px solid rgba(255, 193, 7, 0.3);
+            color: #ffc107;
+        }
+
+            .btn-edit:hover {
+                background: rgba(255, 193, 7, 0.2);
+                color: #ffc107;
+            }
+
+        .btn-delete {
+            background: rgba(220, 53, 69, 0.1);
+            border: 1px solid rgba(220, 53, 69, 0.3);
+            color: #dc3545;
+        }
+
+            .btn-delete:hover {
+                background: rgba(220, 53, 69, 0.2);
+                color: #dc3545;
+            }
+
+        /* ======= STATUS BADGE ======= */
+        .status-badge {
+            background: linear-gradient(135deg, #990100, #660000);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 8px rgba(153, 1, 0, 0.3);
+        }
+
+        /* ======= EMPTY STATE ======= */
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            color: #a0a0a0;
+        }
+
+            .empty-state i {
+                font-size: 5rem;
+                margin-bottom: 20px;
+                color: #990100;
+                opacity: 0.3;
+            }
+
+            .empty-state h4 {
+                color: #cfcfcf;
+                margin-bottom: 10px;
+            }
+
+        /* ======= COUNTER ======= */
+        .cars-counter {
+            background: linear-gradient(135deg, #990100, #660000);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 15px rgba(153, 1, 0, 0.3);
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2 sidebar p-0">
+                <div class="p-4">
+                    <h4 class="text-center mb-4">
+                        <i class="bi bi-speedometer2"></i>
+                        FourPrime Admin
+                    </h4>
+                    <nav class="nav flex-column">
+                        <a class="nav-link" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">
+                            <i class="bi bi-house"></i> Dashboard
+                        </a>
+                        <a class="nav-link active" asp-area="Admin" asp-controller="Carros" asp-action="Index">
+                            <i class="bi bi-car-front"></i> Gerenciar Carros
+                        </a>
+                        <a class="nav-link" asp-area="Admin" asp-controller="Marcas" asp-action="Index">
+                            <i class="bi bi-tags"></i> Gerenciar Marcas
+                        </a>
+                        <a class="nav-link" asp-area="Admin" asp-controller="Categorias" asp-action="Index">
+                            <i class="bi bi-grid"></i> Gerenciar Categorias
+                        </a>
+                        <a class="nav-link" href="#">
+                            <i class="bi bi-image"></i> Banner & Imagens
+                        </a>
+                        <a class="nav-link" href="#">
+                            <i class="bi bi-gear"></i> Configurações
+                        </a>
+                        <a class="nav-link" asp-area="Admin" asp-controller="Relatorios" asp-action="Index">
+                            <i class="bi bi-bar-chart"></i>
+                            Relatórios
+                        </a>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-md-9 col-lg-10 main-content p-0">
+                <nav class="navbar navbar-light bg-black border-bottom border-secondary p-3">
+                    <div class="container-fluid">
+                        <span class="navbar-brand mb-0 h1 text-light">
+                            <i class="bi bi-speedometer2 me-2"></i>
+                            Painel de Administração
+                        </span>
+                        <div class="d-flex align-items-center">
+                            <a asp-controller="Home" asp-action="Index" asp-area="" class="btn btn-outline-light me-2">
+                                <i class="bi bi-arrow-left"></i> Voltar ao Site
+                            </a>
+                            <div class="dropdown">
+                                <button class="btn btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                    <i class="bi bi-person-circle me-2"></i> Admin User
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Meu Perfil</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>Configurações</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-box-arrow-right me-2"></i>Sair</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+
+                <div class="container-fluid p-4">
+                    <!-- Page Header -->
+                    <div class="page-header">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h1 class="page-title">🚗 Gerenciar Carros</h1>
+                                <p class="page-subtitle">Gerencie todos os carros do seu catálogo</p>
+                            </div>
+                            <div class="cars-counter">
+                                <i class="bi bi-car-front me-2"></i>@Model.Count() Carros
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Search & Actions -->
+                    <div class="search-container">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <div class="input-group">
+                                    <span class="input-group-text bg-dark border-secondary text-light">
+                                        <i class="bi bi-search"></i>
+                                    </span>
+                                    <input type="text" class="form-control search-box" id="searchInput"
+                                           placeholder="Pesquisar por modelo, marca, categoria...">
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-end">
+                                <a asp-action="Create" class="btn btn-primary me-2">
+                                    <i class="bi bi-plus-circle me-2"></i> Novo Carro
+                                </a>
+                                <button class="btn btn-outline-primary" onclick="resetFilters()">
+                                    <i class="bi bi-arrow-clockwise me-2"></i> Limpar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Cars Grid -->
+                    <div id="carsGrid" class="cars-grid">
+                        @if (Model.Any())
+                        {
+                            @foreach (var carro in Model)
+                            {
+                                <div class="car-card" data-search="@($"{carro.Modelo} {carro.Marca?.Nome} {carro.Categoria?.Nome} {carro.Cor} {carro.Ano}").ToLower()">
+                                    <!-- Car Image -->
+                                    @if (!string.IsNullOrEmpty(carro.ImagemUrl))
+                                    {
+                                        <img src="@carro.ImagemUrl" class="car-image" alt="@carro.Modelo"
+                                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                        <div class="car-image-placeholder" style="display: none;">
+                                            <i class="bi bi-car-front"></i>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="car-image-placeholder">
+                                            <i class="bi bi-car-front"></i>
+                                        </div>
+                                    }
+
+                                    <div class="car-content">
+                                        <!-- Header with Title and Price -->
+                                        <div class="car-header">
+                                            <div class="flex-grow-1">
+                                                <h3 class="car-title">@carro.Modelo</h3>
+                                                <div class="car-brand">@carro.Marca?.Nome</div>
+                                            </div>
+                                            <div class="car-price">
+                                                R$ @carro.Preco.ToString("N0")
+                                            </div>
+                                        </div>
+
+                                        <!-- Car Details Grid -->
+                                        <div class="car-details">
+                                            <div class="detail-item">
+                                                <span class="detail-label">Categoria</span>
+                                                <span class="detail-value">@carro.Categoria?.Nome</span>
+                                            </div>
+                                            <div class="detail-item">
+                                                <span class="detail-label">Ano</span>
+                                                <span class="detail-value">@carro.Ano</span>
+                                            </div>
+                                            <div class="detail-item">
+                                                <span class="detail-label">Cor</span>
+                                                <span class="detail-value">@carro.Cor</span>
+                                            </div>
+                                            <div class="detail-item">
+                                                <span class="detail-label">KM</span>
+                                                <span class="detail-value">@carro.Quilometragem.ToString("N0")</span>
+                                            </div>
+                                        </div>
+
+                                        <!-- Status and Actions -->
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span class="status-badge">
+                                                <i class="bi bi-check-circle me-1"></i> Disponível
+                                            </span>
+                                            <div class="car-actions">
+                                                <a asp-area="Admin" asp-controller="Carros" asp-action="Details" asp-route-id="@carro.Id"
+                                                   class="btn btn-view btn-sm-custom" title="Visualizar">
+                                                    <i class="bi bi-eye"></i>
+                                                </a>
+                                                <a asp-area="Admin" asp-controller="Carros" asp-action="Edit" asp-route-id="@carro.Id"
+                                                   class="btn btn-edit btn-sm-custom" title="Editar">
+                                                    <i class="bi bi-pencil"></i>
+                                                </a>
+                                                <a asp-area="Admin" asp-controller="Carros" asp-action="Delete" asp-route-id="@carro.Id"
+                                                   class="btn btn-delete btn-sm-custom" title="Excluir">
+                                                    <i class="bi bi-trash"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <div class="empty-state w-100">
+                                <i class="bi bi-car-front"></i>
+                                <h4>Nenhum carro encontrado</h4>
+                                <p class="mb-4">Comece adicionando seu primeiro carro ao catálogo</p>
+                                <a asp-action="Create" class="btn btn-primary btn-lg">
+                                    <i class="bi bi-plus-circle me-2"></i> Adicionar Primeiro Carro
+                                </a>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Busca em tempo real
+        document.getElementById('searchInput').addEventListener('input', function (e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const carCards = document.querySelectorAll('.car-card');
+            let visibleCount = 0;
+
+            carCards.forEach(card => {
+                const searchData = card.getAttribute('data-search');
+                if (searchData.includes(searchTerm)) {
+                    card.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            // Atualiza o contador
+            document.querySelector('.cars-counter').innerHTML =
+                `<i class="bi bi-car-front me-2"></i>${visibleCount} Carros`;
+
+            // Mostra empty state se não houver resultados
+            const emptyState = document.querySelector('.empty-state');
+            if (visibleCount === 0 && searchTerm !== '') {
+                if (!emptyState) {
+                    const grid = document.getElementById('carsGrid');
+                    grid.innerHTML = `
+                        <div class="empty-state w-100">
+                            <i class="bi bi-search"></i>
+                            <h4>Nenhum carro encontrado</h4>
+                            <p>Não encontramos resultados para "${searchTerm}"</p>
+                            <button class="btn btn-outline-primary" onclick="resetFilters()">
+                                <i class="bi bi-arrow-clockwise me-2"></i> Limpar Busca
+                            </button>
+                        </div>
+                    `;
+                }
+            }
+        });
+
+        // Função para limpar filtros
+        function resetFilters() {
+            document.getElementById('searchInput').value = '';
+            const carCards = document.querySelectorAll('.car-card');
+            carCards.forEach(card => {
+                card.style.display = 'block';
+            });
+            document.querySelector('.cars-counter').innerHTML =
+                `<i class="bi bi-car-front me-2"></i>@Model.Count() Carros`;
+        }
+    </script>
+</body>
+</html>

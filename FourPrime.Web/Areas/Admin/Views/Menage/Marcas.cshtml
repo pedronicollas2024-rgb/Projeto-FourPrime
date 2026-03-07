@@ -1,0 +1,47 @@
+﻿@{
+    ViewData["Title"] = "Gerenciar Marcas";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">@ViewData["Title"]</h1>
+        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm">
+            <i class="fas fa-plus fa-sm text-white-50"></i> Nova Marca
+        </a>
+    </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-success">Lista de Marcas</h6>
+        </div>
+        <div class="card-body">
+            <div class="alert alert-info">
+                <strong>Módulo em Desenvolvimento</strong><br>
+                Esta funcionalidade estará disponível em breve. Aqui você poderá gerenciar todas as marcas do sistema.
+            </div>
+
+            <!-- Placeholder da tabela -->
+            <div class="table-responsive">
+                <table class="table table-bordered" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>País de Origem</th>
+                            <th>Ano de Fundação</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="4" class="text-center text-muted">
+                                <i class="fas fa-industry fa-2x mb-2"></i><br>
+                                Nenhuma marca cadastrada
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

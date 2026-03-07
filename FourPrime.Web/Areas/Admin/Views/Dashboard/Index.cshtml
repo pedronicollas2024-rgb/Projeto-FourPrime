@@ -1,0 +1,504 @@
+﻿@model FourPrime.Web.Areas.Admin.Services.DashboardData
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/img/Logo1.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+    <title>FourPrime Garage - Painel Admin</title>
+
+    <style>
+        /* ======= TEMA PRINCIPAL ======= */
+        body {
+            background: #0f0f0f;
+            color: #eaeaea;
+        }
+
+        /* ======= SIDEBAR ======= */
+        .sidebar {
+            position: relative;
+            box-shadow: 0 0 25px rgba(153, 1, 0, 0.25);
+            border-right: 1px solid rgba(153, 1, 0, 0.25);
+            background: #151515;
+            min-height: 100vh;
+        }
+
+            .sidebar:before {
+                content: "";
+                position: absolute;
+                right: -2px;
+                top: 0;
+                width: 2px;
+                height: 100%;
+                background: linear-gradient(180deg, #990100, #660000);
+                box-shadow: 0 0 15px #990100, 0 0 30px #990100, 0 0 45px #990100;
+            }
+
+            .sidebar .nav-link {
+                color: #cfcfcf;
+                padding: 12px 20px;
+                margin: 4px 0;
+                border-radius: 8px;
+                transition: 0.2s;
+                text-decoration: none;
+            }
+
+                .sidebar .nav-link:hover,
+                .sidebar .nav-link.active {
+                    background: rgba(153, 1, 0, 0.18);
+                    color: #ff3333;
+                    font-weight: 500;
+                }
+
+                .sidebar .nav-link i {
+                    margin-right: 10px;
+                }
+
+            .sidebar h4 {
+                color: #ffe6e6 !important;
+                text-shadow: 0 0 8px #990100, 0 0 15px #990100;
+                font-weight: 700;
+                letter-spacing: 1px;
+            }
+
+        /* ======= MAIN CONTENT ======= */
+        .main-content {
+            background-color: #0c0c0c;
+            color: #eaeaea;
+            min-height: 100vh;
+        }
+
+        /* ======= CARDS ======= */
+        .stat-card {
+            border: none;
+            border-radius: 15px;
+            background: #151515;
+            box-shadow: 0 0 20px rgba(153, 1, 0, 0.05);
+            transition: transform 0.3s ease;
+            color: #eaeaea;
+        }
+
+            .stat-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 0 25px rgba(153, 1, 0, 0.15);
+            }
+
+            /* Gradientes vermelho escuro neon (#990100) */
+            .stat-card.primary {
+                background: linear-gradient(135deg, #990100, #660000);
+                color: #fff;
+            }
+
+            .stat-card.success {
+                background: linear-gradient(135deg, #b30000, #660000);
+                color: #fff;
+            }
+
+            .stat-card.warning {
+                background: linear-gradient(135deg, #cc0000, #800000);
+                color: #fff;
+            }
+
+            .stat-card.info {
+                background: linear-gradient(135deg, #ff1a1a, #990100);
+                color: #fff;
+            }
+
+        /* ======= CARROS RECENTES ======= */
+        .cars-container {
+            background: #151515;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), 0 5px 15px rgba(153, 1, 0, 0.2);
+            border: 1px solid rgba(153, 1, 0, 0.3);
+            overflow: hidden;
+            position: relative;
+        }
+
+            .cars-container::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 4px;
+                background: linear-gradient(90deg, #990100, #ff3333, #990100);
+                z-index: 2;
+            }
+
+        .cars-header {
+            background: linear-gradient(135deg, #1a1a1a, #151515);
+            padding: 25px;
+            border-bottom: 1px solid rgba(153, 1, 0, 0.3);
+        }
+
+        .car-item {
+            background: rgba(26, 26, 26, 0.6);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+            .car-item:hover {
+                background: rgba(153, 1, 0, 0.1);
+                border-color: rgba(153, 1, 0, 0.4);
+                transform: translateY(-2px);
+                box-shadow: 0 8px 25px rgba(153, 1, 0, 0.2);
+            }
+
+        .car-image {
+            width: 80px;
+            height: 60px;
+            border-radius: 10px;
+            object-fit: cover;
+            border: 2px solid rgba(153, 1, 0, 0.5);
+        }
+
+        .car-image-placeholder {
+            width: 80px;
+            height: 60px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #2a2a2a, #1a1a1a);
+            border: 2px solid rgba(153, 1, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #990100;
+            font-size: 1.5rem;
+        }
+
+        .car-info h6 {
+            color: #ffe6e6;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .car-details {
+            color: #cfcfcf;
+            font-size: 0.85rem;
+        }
+
+        .car-price {
+            color: #990100;
+            font-weight: 800;
+            font-size: 1.1rem;
+        }
+
+        .car-status {
+            background: linear-gradient(135deg, #990100, #660000);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .car-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        /* ======= BOTÕES ======= */
+        .btn-admin, .btn-outline-primary {
+            border-radius: 8px;
+            font-weight: 500;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #990100, #660000);
+            border: none;
+        }
+
+            .btn-primary:hover {
+                filter: brightness(1.1);
+                background: linear-gradient(135deg, #990100, #660000);
+            }
+
+        .btn-outline-primary {
+            border: 1px solid #990100;
+            color: #990100;
+        }
+
+            .btn-outline-primary:hover {
+                background: #990100;
+                color: white;
+            }
+
+        .btn-sm-custom {
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+        }
+
+        .navbar-light .navbar-brand {
+            color: #eaeaea !important;
+        }
+
+        .dropdown-menu {
+            background: #1a1a1a;
+            border: 1px solid rgba(153, 1, 0, 0.3);
+        }
+
+        .dropdown-item {
+            color: #eaeaea;
+        }
+
+            .dropdown-item:hover {
+                background: rgba(153, 1, 0, 0.2);
+                color: #ff3333;
+            }
+
+        .text-muted {
+            color: #a0a0a0 !important;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #a0a0a0;
+        }
+
+            .empty-state i {
+                font-size: 4rem;
+                margin-bottom: 20px;
+                color: #990100;
+                opacity: 0.5;
+            }
+
+        .section-title {
+            color: #ffe6e6;
+            font-weight: 700;
+            margin-bottom: 25px;
+            font-size: 1.5rem;
+            text-shadow: 0 2px 10px rgba(153, 1, 0, 0.3);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2 sidebar p-0">
+                <div class="p-4">
+                    <h4 class="text-center mb-4">
+                        <i class="bi bi-speedometer2"></i>
+                        FourPrime Admin
+                    </h4>
+                    <nav class="nav flex-column">
+                        <a class="nav-link active" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">
+                            <i class="bi bi-house"></i> Dashboard
+                        </a>
+                        <a class="nav-link" asp-area="Admin" asp-controller="Carros" asp-action="Index">
+                            <i class="bi bi-car-front"></i> Gerenciar Carros
+                        </a>
+                        <a class="nav-link" asp-area="Admin" asp-controller="Marcas" asp-action="Index">
+                            <i class="bi bi-tags"></i> Gerenciar Marcas
+                        </a>
+                        <a class="nav-link" asp-area="Admin" asp-controller="Categorias" asp-action="Index">
+                            <i class="bi bi-grid"></i> Gerenciar Categorias
+                        </a>
+                        <a class="nav-link" href="#">
+                            <i class="bi bi-image"></i> Banner & Imagens
+                        </a>
+                        <a class="nav-link" href="#">
+                            <i class="bi bi-gear"></i> Configurações
+                        </a>
+                        <a class="nav-link" asp-area="Admin" asp-controller="Relatorios" asp-action="Index">
+                            <i class="bi bi-bar-chart"></i>
+                            Relatórios
+                        </a>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-md-9 col-lg-10 main-content p-0">
+                <nav class="navbar navbar-expand-lg navbar-dark bg-black border-bottom border-secondary p-3">
+                    <div class="container-fluid">
+                        <span class="navbar-brand mb-0 h1">
+                            <i class="bi bi-speedometer2 me-2"></i>Painel de Administração
+                        </span>
+                        <div class="d-flex align-items-center">
+                            <a asp-controller="Home" asp-action="Index" asp-area="" class="btn btn-outline-light me-2">
+                                <i class="bi bi-arrow-left"></i> Voltar ao Site
+                            </a>
+                            <div class="dropdown">
+                                <button class="btn btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                    <i class="bi bi-person-circle me-2"></i> Admin User
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Meu Perfil</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>Configurações</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-box-arrow-right me-2"></i>Sair</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+
+                <div class="container-fluid p-4">
+                    <h2 class="section-title">Visão Geral 🚗</h2>
+
+                    <!-- Cards de Estatísticas -->
+                    <div class="row mb-5">
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card stat-card primary text-white h-100">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <h6 class="card-title">Total de Carros</h6>
+                                            <h2 class="mb-0">@Model.TotalCarros</h2>
+                                        </div>
+                                        <div class="align-self-center">
+                                            <i class="bi bi-car-front fs-1"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card stat-card success text-white h-100">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <h6 class="card-title">Total de Marcas</h6>
+                                            <h2 class="mb-0">@Model.TotalMarcas</h2>
+                                        </div>
+                                        <div class="align-self-center">
+                                            <i class="bi bi-tags fs-1"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card stat-card warning text-white h-100">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <h6 class="card-title">Total de Categorias</h6>
+                                            <h2 class="mb-0">@Model.TotalCategorias</h2>
+                                        </div>
+                                        <div class="align-self-center">
+                                            <i class="bi bi-grid fs-1"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                       
+
+                    <!-- Carros Recentes - Layout Expandidoo -->
+                    <div class="row">
+                        <div class="col-12 mb-4">
+                            <div class="cars-container">
+                                <div class="cars-header">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <h4 class="mb-1">🚗 Carros Recentes</h4>
+                                            <p class="text-muted mb-0">Últimos carros adicionados ao sistema</p>
+                                        </div>
+                                        <a asp-area="Admin" asp-controller="Carros" asp-action="Index" class="btn btn-primary">
+                                            <i class="bi bi-plus-circle me-2"></i>Gerenciar Carros
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="p-4">
+                                    @if (Model.UltimosCarros != null && Model.UltimosCarros.Any())
+                                    {
+                                        <div class="row">
+                                            @foreach (var carro in Model.UltimosCarros)
+                                            {
+                                                <div class="col-lg-6 col-xl-4 mb-4">
+                                                    <div class="car-item">
+                                                        <div class="d-flex align-items-start gap-3">
+                                                            <!-- Imagem do Carro -->
+                                                            @if (!string.IsNullOrEmpty(carro.ImagemUrl) && carro.ImagemUrl != string.Empty)
+                                                            {
+                                                                <img src="@carro.ImagemUrl"
+                                                                     class="car-image"
+                                                                     alt="@carro.Modelo"
+                                                                     onerror="this.src='/img/car-placeholder.jpg'">
+                                                            }
+                                                            else
+                                                            {
+                                                                <div class="car-image-placeholder">
+                                                                    <i class="bi bi-car-front"></i>
+                                                                </div>
+                                                            }
+
+                                                            <!-- Informações do Carro -->
+                                                            <div class="flex-grow-1">
+                                                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                                                    <div class="car-info">
+                                                                        <h6 class="mb-1">@carro.Modelo</h6>
+                                                                        <div class="car-details">
+                                                                            <small class="d-block">@carro.Marca • @carro.Ano</small>
+                                                                            <small class="d-block">@carro.Quilometragem.ToString("N0") km • @carro.Combustivel</small>
+                                                                        </div>
+                                                                    </div>
+                                                                    <span class="car-status">Disponível</span>
+                                                                </div>
+
+                                                                <div class="d-flex justify-content-between align-items-center">
+                                                                    <div class="car-price">
+                                                                        R$ @carro.Preco.ToString("N2")
+                                                                    </div>
+                                                                    <div class="car-actions">
+                                                                        <a class="btn btn-outline-primary btn-sm-custom"
+                                                                           asp-area="Admin" asp-controller="Carros" asp-action="Edit" asp-route-id="@carro.Id"
+                                                                           title="Editar">
+                                                                            <i class="bi bi-pencil"></i>
+                                                                        </a>
+                                                                        <a class="btn btn-outline-danger btn-sm-custom"
+                                                                           asp-area="Admin" asp-controller="Carros" asp-action="Delete" asp-route-id="@carro.Id"
+                                                                           title="Excluir">
+                                                                            <i class="bi bi-trash"></i>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="empty-state">
+                                            <i class="bi bi-car-front"></i>
+                                            <h5 class="mb-2">Nenhum carro cadastrado</h5>
+                                            <p class="text-muted mb-3">Comece adicionando seu primeiro carro ao sistema</p>
+                                            <a asp-area="Admin" asp-controller="Carros" asp-action="Create" class="btn btn-primary">
+                                                <i class="bi bi-plus-circle me-2"></i>Adicionar Primeiro Carro
+                                            </a>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+</body>
+</html>

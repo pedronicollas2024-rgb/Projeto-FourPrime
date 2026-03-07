@@ -1,0 +1,64 @@
+﻿@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+
+@{
+    ViewData["Title"] = "Gerenciar Usuários";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">@ViewData["Title"]</h1>
+        @if ((await AuthorizationService.AuthorizeAsync(User, "Admin")).Succeeded)
+        {
+            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-info shadow-sm">
+                <i class="fas fa-plus fa-sm text-white-50"></i> Novo Usuário
+            </a>
+        }
+    </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-info">Lista de Usuários</h6>
+        </div>
+        <div class="card-body">
+            @if ((await AuthorizationService.AuthorizeAsync(User, "Admin")).Succeeded)
+            {
+                <div class="alert alert-info">
+                    <strong>Módulo em Desenvolvimento</strong><br>
+                    Esta funcionalidade estará disponível em breve. Aqui você poderá gerenciar todos os usuários do sistema.
+                </div>
+
+                <!-- Placeholder da tabela -->
+                <div class="table-responsive">
+                    <table class="table table-bordered" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Nome Completo</th>
+                                <th>Email</th>
+                                <th>Função</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="5" class="text-center text-muted">
+                                    <i class="fas fa-users fa-2x mb-2"></i><br>
+                                    Nenhum usuário cadastrado
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-warning">
+                    <strong>Acesso Restrito</strong><br>
+                    Apenas administradores podem gerenciar usuários do sistema.
+                </div>
+            }
+        </div>
+    </div>
+</div>

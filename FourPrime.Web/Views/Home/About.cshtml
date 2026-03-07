@@ -1,0 +1,408 @@
+﻿@{
+    ViewData["Title"] = "SobreNos - FourPrime";
+}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Mulish:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+    <style>
+        /* ======= RESET E BASE ======= */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            height: 100%;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0f0f0f 100%);
+            position: relative;
+            font-family: 'Mulish', sans-serif;
+            overflow-x: hidden;
+        }
+
+            body::before {
+                content: '';
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: radial-gradient(circle at 20% 80%, rgba(153, 1, 0, 0.15) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(153, 1, 0, 0.12) 0%, transparent 50%), radial-gradient(circle at 40% 40%, rgba(153, 1, 0, 0.08) 0%, transparent 50%);
+                pointer-events: none;
+                z-index: -1;
+            }
+
+        /* ======= HEADER HERO ======= */
+        .hero-section {
+            background: linear-gradient(rgba(10, 10, 10, 0.8), rgba(10, 10, 10, 0.9)), url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2000&q=80') center/cover no-repeat;
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .hero-section::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 4px;
+                background: linear-gradient(90deg, #990100, #ff3333, #990100);
+                background-size: 200% 100%;
+                animation: shimmer 3s infinite linear;
+            }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* ======= TÍTULOS ======= */
+        .section-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-weight: 700;
+            color: #ffe6e6;
+            text-shadow: 0 4px 15px rgba(153, 1, 0, 0.3);
+            position: relative;
+            display: inline-block;
+        }
+
+            .section-title::after {
+                content: '';
+                position: absolute;
+                bottom: -10px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 80px;
+                height: 4px;
+                background: linear-gradient(90deg, #990100, #ff3333);
+                border-radius: 2px;
+            }
+
+        /* ======= CARDS PREMIUM ======= */
+        .premium-card {
+            background: rgba(21, 21, 21, 0.8);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(153, 1, 0, 0.3);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), 0 5px 15px rgba(153, 1, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: hidden;
+            position: relative;
+        }
+
+            .premium-card::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 3px;
+                background: linear-gradient(90deg, #990100, #ff3333, #990100);
+                background-size: 200% 100%;
+                animation: shimmer 3s infinite linear;
+            }
+
+            .premium-card:hover {
+                transform: translateY(-10px) scale(1.02);
+                box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), 0 15px 30px rgba(153, 1, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+            }
+
+        /* ======= ÍCONES ======= */
+        .icon-wrapper {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #990100, #660000);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            box-shadow: 0 0 30px rgba(153, 1, 0, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+            .icon-wrapper i {
+                font-size: 2rem;
+                color: white;
+            }
+
+        /* ======= TEXTOS ======= */
+        .text-glow {
+            color: #ffe6e6;
+            text-shadow: 0 2px 10px rgba(153, 1, 0, 0.2);
+        }
+
+        .text-muted-custom {
+            color: #cfcfcf !important;
+        }
+
+        .lead-custom {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            color: #eaeaea;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        /* ======= BOTÕES ======= */
+        .btn-premium {
+            background: linear-gradient(135deg, #990100, #660000);
+            border: none;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .btn-premium::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+                transition: left 0.6s;
+            }
+
+            .btn-premium:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 25px rgba(153, 1, 0, 0.4);
+            }
+
+                .btn-premium:hover::before {
+                    left: 100%;
+                }
+
+        
+
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        /* ======= SEÇÕES ======= */
+        .section-spacing {
+            padding: 80px 0;
+        }
+
+        .stat-number {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3.5rem;
+            color: #990100;
+            text-shadow: 0 0 20px rgba(153, 1, 0, 0.5);
+            line-height: 1;
+        }
+
+       
+
+        /* ======= ELEMENTOS FLUTUANTES ======= */
+        .floating-element {
+            position: absolute;
+            background: rgba(153, 1, 0, 0.05);
+            border: 1px solid rgba(153, 1, 0, 0.1);
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+            pointer-events: none;
+        }
+
+       
+    </style>
+    <title>FourPrime | Garage - Sobre Nós</title>
+</head>
+
+<body>
+    <!-- Elementos flutuantes de fundo -->
+    <div class="floating-element" style="width: 100px; height: 100px; top: 10%; left: 5%; animation-delay: 0s;"></div>
+    <div class="floating-element" style="width: 150px; height: 150px; top: 60%; left: 80%; animation-delay: -5s;"></div>
+    <div class="floating-element" style="width: 80px; height: 80px; top: 80%; left: 20%; animation-delay: -10s;"></div>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row justify-content-center text-center hero-content">
+                <div class="col-lg-8 fade-in-up">
+                    <h1 class="display-3 fw-bold text-glow mb-4">SOBRE A FOURPRIME</h1>
+                    <p class="lead-custom mb-5">
+                        Excelência em veículos de alto padrão desde 2015
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Conteúdo principal -->
+    <main class="flex-grow-1">
+        <!-- Missão e Visão -->
+        <section class="section-spacing">
+            <div class="container">
+                <div class="row justify-content-center mb-5">
+                    <div class="col-lg-10 text-center fade-in-up">
+                        <h2 class="section-title display-4 fw-bold mb-4">Nossa Essência</h2>
+                        <p class="lead-custom">
+                            A FourPrime Garage é especializada na venda de carros importados
+                            de alto padrão, como Ferrari, Lamborghini, Porsche, BMW, entre
+                            outros. Oferecemos veículos exclusivos, atendimento personalizado,
+                            consultoria completa na importação e pós-venda de excelência.
+                            Nosso compromisso é entregar performance, luxo e confiança em cada
+                            negócio.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-md-6 fade-in-up" style="animation-delay: 0.2s;">
+                        <div class="premium-card h-100 p-4 text-center">
+                            <div class="icon-wrapper">
+                                <i class="bi bi-bullseye"></i>
+                            </div>
+                            <h3 class="text-glow fw-bold mb-3">Missão</h3>
+                            <p class="text-muted-custom">
+                                Proporcionar a melhor experiência em aquisição de veículos de luxo,
+                                oferecendo produtos exclusivos e serviços personalizados que superem
+                                as expectativas dos nossos clientes mais exigentes.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 fade-in-up" style="animation-delay: 0.4s;">
+                        <div class="premium-card h-100 p-4 text-center">
+                            <div class="icon-wrapper">
+                                <i class="bi bi-eye"></i>
+                            </div>
+                            <h3 class="text-glow fw-bold mb-3">Visão</h3>
+                            <p class="text-muted-custom">
+                                Ser referência nacional em veículos importados de alto padrão,
+                                reconhecida pela excelência no atendimento, qualidade dos produtos
+                                e inovação constante no segmento automotivo de luxo.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Diferenciais -->
+        <section class="section-spacing bg-dark">
+            <div class="container">
+                <div class="row justify-content-center mb-5">
+                    <div class="col-lg-8 text-center fade-in-up">
+                        <h2 class="section-title display-4 fw-bold mb-4">Por que Escolher a FourPrime?</h2>
+                    </div>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-md-4 fade-in-up" style="animation-delay: 0.2s;">
+                        <div class="premium-card h-100 p-4 text-center">
+                            <div class="icon-wrapper">
+                                <i class="bi bi-gem"></i>
+                            </div>
+                            <h4 class="text-glow fw-bold mb-3">Veículos Exclusivos</h4>
+                            <p class="text-muted-custom">
+                                Seleção rigorosa dos melhores modelos das marcas mais prestigiadas do mundo automotivo.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 fade-in-up" style="animation-delay: 0.4s;">
+                        <div class="premium-card h-100 p-4 text-center">
+                            <div class="icon-wrapper">
+                                <i class="bi bi-headset"></i>
+                            </div>
+                            <h4 class="text-glow fw-bold mb-3">Consultoria Especializada</h4>
+                            <p class="text-muted-custom">
+                                Equipe de especialistas para orientar em todo processo de importação e documentação.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 fade-in-up" style="animation-delay: 0.6s;">
+                        <div class="premium-card h-100 p-4 text-center">
+                            <div class="icon-wrapper">
+                                <i class="bi bi-shield-check"></i>
+                            </div>
+                            <h4 class="text-glow fw-bold mb-3">Pós-Venda Premium</h4>
+                            <p class="text-muted-custom">
+                                Suporte completo após a venda, garantindo total satisfação e tranquilidade.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Estatísticas -->
+        <section class="section-spacing">
+            <div class="container">
+                <div class="row text-center g-4">
+                    <div class="col-md-3 fade-in-up" style="animation-delay: 0.2s;">
+                        <div class="premium-card p-4">
+                            <div class="stat-number">500+</div>
+                            <p class="text-muted-custom fw-semibold">Carros Vendidos</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 fade-in-up" style="animation-delay: 0.4s;">
+                        <div class="premium-card p-4">
+                            <div class="stat-number">15+</div>
+                            <p class="text-muted-custom fw-semibold">Marcas Parceiras</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 fade-in-up" style="animation-delay: 0.6s;">
+                        <div class="premium-card p-4">
+                            <div class="stat-number">98%</div>
+                            <p class="text-muted-custom fw-semibold">Clientes Satisfeitos</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 fade-in-up" style="animation-delay: 0.8s;">
+                        <div class="premium-card p-4">
+                            <div class="stat-number">8</div>
+                            <p class="text-muted-custom fw-semibold">Anos de Experiência</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Animação de entrada dos elementos
+        document.addEventListener('DOMContentLoaded', function() {
+            const animatedElements = document.querySelectorAll('.fade-in-up');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animationPlayState = 'running';
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            animatedElements.forEach(el => {
+                el.style.animationPlayState = 'paused';
+                observer.observe(el);
+            });
+        });
+    </script>
+
+</body>
+</html>

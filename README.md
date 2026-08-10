@@ -10,155 +10,13 @@
 
 ## 📌 Sobre o Projeto
 
-O **FourPrime** é um sistema completo de gestão e catálogo para concessionárias de veículos de luxo e seminovos. Desenvolvido como Projeto Integrador do curso Técnico em Informática do SENAC, por um grupo de **4 alunos**, o nome faz referência ao *Four* membros e ao conceito de **prime** (primeira escolha).
-
-A plataforma foi fortemente **inspirada na T‑Car**, referência no mercado de comércio de veículos.
-
----
-
-## 🏛️ Arquitetura (Clean Architecture + DDD)
-
-A solução segue os princípios de **Clean Architecture** e **Domain‑Driven Design**, garantindo baixo acoplamento e alta testabilidade. É composta por 6 projetos:
-
-```mermaid
-graph TD
-    UI_Web[🌐 FourPrime.Web - ASP.NET Core MVC] --> App[⚙️ FourPrime.Application]
-    UI_Desktop[🖥️ FourPrime.Ul - WinForms] --> App
-    UI_Api[🔗 FourPrime.Api - REST API] --> App
-    App --> Domain[🏛️ FourPrime.Domain]
-    Infra[🗄️ FourPrime.Infrastructure] --> Domain
-    Infra --> App
-    UI_Web --> Infra
-    UI_Api --> Infra
-    UI_Desktop --> Infra
-```
-
-**Camadas**:
-1. **FourPrime.Domain** – Entidades, Value Objects e Interfaces do núcleo.
-2. **FourPrime.Application** – Casos de uso, DTOs e contratos de serviços.
-3. **FourPrime.Infrastructure** – Implementação de repositórios, EF Core, migrações e serviços externos.
-4. **FourPrime.Api** – API RESTful com JWT, Swagger e CORS.
-5. **FourPrime.Web** – Aplicação MVC com Bootstrap 5, autenticação por cookies e Google OAuth.
-6. **FourPrime.Ul** – Cliente Desktop WinForms usando Guna UI2, ideal para gestão rápida.
-
----
-
-## 🛠️ Tecnologias
-
-| Área | Tecnologia |
-|------|------------|
-| **Back‑end** | C# 13, .NET 10/9, ASP.NET Core MVC & Web API |
-| **ORM** | Entity Framework Core 9.0.2 (SQL Server) |
-| **Autenticação** | ASP.NET Identity, JWT, Cookies, Google OAuth |
-| **Injeção de Dependências** | Microsoft.Extensions.DependencyInjection |
-| **Documentação API** | Swashbuckle/Swagger |
-| **Front‑end Web** | HTML5, CSS3, JavaScript (ES6+), Bootstrap 5, FontAwesome |
-| **Desktop** | Windows Forms, Guna.UI2.WinForms |
-| **CI/CD** | GitHub Actions (optional) |
-
----
-
-## 🚀 Como Executar o Projeto
-
-### Pré‑requisitos
-- [.NET 10.0 SDK](https://dotnet.microsoft.com/download/dotnet/10.0) (ou .NET 9.0)
-- SQL Server (ou SQL Server Express / LocalDB)
-- IDE: **Visual Studio 2022/2026** ou **VS Code** com extensão C# Dev Kit
-
-### Passos de Inicialização
-1. **Clonar o repositório**
-   ```bash
-   git clone https://github.com/pedronicollas2024-rgb/Projeto-FourPrime.git
-   cd Projeto-FourPrime
-   ```
-2. **Configurar a string de conexão** em `appsettings.json` de cada projeto (`FourPrime.Web`, `FourPrime.Api`, `FourPrime.Ul`). Exemplo:
-   ```json
-   "ConnectionStrings": {
-       "DefaultConnection": "Server=(localdb)\\MSSQLLocalDB;Database=FourPrimeDb;Trusted_Connection=True;TrustServerCertificate=True;"
-   }
-   ```
-3. **Restaurar dependências e compilar**
-   ```bash
-   dotnet restore FourPrime.sln
-   dotnet build FourPrime.sln
-   ```
-4. **Aplicar migrações** (opcional – o banco é seedado na primeira execução)
-   ```bash
-   dotnet ef database update --project FourPrime.Infrastructure --startup-project FourPrime.Api
-   ```
-5. **Configurar projetos de inicialização** no Visual Studio:
-   - Clique com o botão direito na solução **FourPrime** → **Set Startup Projects...**
-   - Selecione **Multiple startup projects**
-   - Defina as ações:
-     - `FourPrime.Api` → **Start** – Perfil **http** (Porta `5138`)
-     - `FourPrime.Web` → **Start** – Perfil **http** (Porta `5043`)
-     - `FourPrime.Ul` → **Start**
-   - Pressione **F5**
-
-### Execução via CLI
-```bash
-# API
-dotnet run --project FourPrime.Api   # http://localhost:5138/swagger
-
-# Web
-dotnet run --project FourPrime.Web   # http://localhost:5043
-
-# Desktop
-dotnet run --project FourPrime.Ul
-```
-
----
-
-## 👥 Equipe
-
-Projeto desenvolvido pelo grupo **FourPrime** como Projeto Integrador do curso Técnico em Informática do **SENAC**.
-
-- **4 Alunos Desenvolvedores**
-
----
-
-## 📄 Licença
-
-Este projeto está licenciado sob a licença **MIT** – sinta‑se à vontade para usar, adaptar e compartilhar.
-
-
-[![.NET](https://img.shields.io/badge/.NET-10.0%20%7C%209.0-512BD4?logo=dotnet&logoColor=white)](https://dotnet.microsoft.com/)
-[![C#](https://img.shields.io/badge/C%23-13.0-239120?logo=csharp&logoColor=white)](https://docs.microsoft.com/dotnet/csharp/)
-[![Entity Framework Core](https://img.shields.io/badge/EF%20Core-9.0.2-512BD4?logo=nuget&logoColor=white)](https://docs.microsoft.com/ef/core/)
-[![Bootstrap](https://img.shields.io/badge/Bootstrap-5.3-7952B3?logo=bootstrap&logoColor=white)](https://getbootstrap.com/)
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-
----
-
-## 📌 Sobre o Projeto
-
 O **FourPrime** é um sistema completo e integrado de gestão e catálogo para concessionária de veículos de luxo e seminovos. 
 
-O projeto foi desenvolvido como **Projeto Integrador** do curso **Técnico em Informática do SENAC**, realizado por uma equipe de **4 alunos** (origem do nome *FourPrime*). A plataforma foi fortemente **inspirada na T-Car**, referência no mercado de comércio de veículos.
+O projeto foi desenvolvido como **Projeto Integrador** do curso **Técnico em Informática do SENAC**. A plataforma foi fortemente **inspirada na T-Car**, referência no mercado de comércio de veículos.
 
 O ecossistema é composto por uma **Aplicação Web (MVC)** para clientes e administradores, uma **Web API RESTful** para integração e um **Sistema Desktop (Windows Forms)** para gestão rápida e administrativa de catálogo e estoque.
 
 ---
-
-## 🏛️ Arquitetura do Sistema (Clean Architecture)
-
-A solução foi estruturada seguindo os princípios de **Clean Architecture** (Arquitetura Limpa) e **Domain-Driven Design (DDD)**, promovendo baixo acoplamento, alta testabilidade e clara separação de responsabilidades em 6 projetos integrados:
-
-```mermaid
-graph TD
-    UI_Web[🌐 FourPrime.Web - ASP.NET Core MVC] --> App[⚙️ FourPrime.Application]
-    UI_Desktop[🖥️ FourPrime.Ul - Windows Forms Guna UI2] --> App
-    UI_Api[🔗 FourPrime.Api - Web API RESTful] --> App
-    
-    App --> Domain[🏛️ FourPrime.Domain]
-    
-    Infra[🗄️ FourPrime.Infrastructure] --> Domain
-    Infra --> App
-    
-    UI_Web --> Infra
-    UI_Api --> Infra
-    UI_Desktop --> Infra
-```
 
 ### 🧱 Camadas da Solução:
 
@@ -262,16 +120,6 @@ graph TD
      ```bash
      dotnet run --project FourPrime.Ul
      ```
-
----
-
-## 👥 Equipe FourPrime
-
-Projeto desenvolvido pelo grupo **FourPrime** como Projeto Integrador do curso Técnico em Informática no **SENAC**:
-
-* **4 Alunos Desenvolvedores** (Grupo FourPrime)
-
----
 
 ## 📄 Licença
 

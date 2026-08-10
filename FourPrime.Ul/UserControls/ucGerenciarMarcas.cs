@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -100,7 +100,7 @@ namespace FourPrime.Ul.UserControls
 
             var row = dgvMarcas.SelectedRows[0];
 
-            if (row.Cells[0].Value is null || !int.TryParse(row.Cells[0].Value.ToString(), out var id))
+            if (row.Cells[0].Value is null || !int.TryParse(row.Cells[0].Value?.ToString(), out var id))
             {
                 MessageBox.Show("Id inválido da marca selecionada.");
                 return;
@@ -164,7 +164,7 @@ namespace FourPrime.Ul.UserControls
             var row = dgvMarcas.SelectedRows[0];
 
             // Coluna 0 = Id
-            if (row.Cells[0].Value is null || !int.TryParse(row.Cells[0].Value.ToString(), out var id))
+            if (row.Cells[0].Value is null || !int.TryParse(row.Cells[0].Value?.ToString(), out var id))
             {
                 MessageBox.Show("Id inválido da marca selecionada.");
                 return;

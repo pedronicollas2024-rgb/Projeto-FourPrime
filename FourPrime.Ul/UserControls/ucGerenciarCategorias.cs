@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using FourPrime.Application.Abstractions.Repositories;
@@ -77,7 +77,7 @@ namespace FourPrime.Ul.UserControls
 
             var row = dgvCategorias.SelectedRows[0];
 
-            if (row.Cells[0].Value is null || !int.TryParse(row.Cells[0].Value.ToString(), out var id))
+            if (row.Cells[0].Value is null || !int.TryParse(row.Cells[0].Value?.ToString(), out var id))
             {
                 MessageBox.Show("Id inválido da categoria selecionada.");
                 return;
@@ -143,7 +143,7 @@ namespace FourPrime.Ul.UserControls
 
             var row = dgvCategorias.SelectedRows[0];
 
-            if (row.Cells[0].Value is null || !int.TryParse(row.Cells[0].Value.ToString(), out var id))
+            if (row.Cells[0].Value is null || !int.TryParse(row.Cells[0].Value?.ToString(), out var id))
             {
                 MessageBox.Show("Id inválido da categoria selecionada.");
                 return;

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -105,7 +105,7 @@ namespace FourPrime.Ul.UserControls
             var row = dgvCarros.SelectedRows[0];
 
             // Ordem do grid: Id, Modelo, Marca, Categoria, Ano, Preço, Status
-            if (row.Cells[0].Value is null || !int.TryParse(row.Cells[0].Value.ToString(), out var id))
+            if (row.Cells[0].Value is null || !int.TryParse(row.Cells[0].Value?.ToString(), out var id))
             {
                 MessageBox.Show("Id inválido do carro selecionado.");
                 return;
@@ -145,7 +145,7 @@ namespace FourPrime.Ul.UserControls
             var row = dgvCarros.SelectedRows[0];
 
             // Ordem do grid: Id, Modelo, Marca, Categoria, Ano, Preço, Status
-            if (row.Cells[0].Value is null || !int.TryParse(row.Cells[0].Value.ToString(), out var id))
+            if (row.Cells[0].Value is null || !int.TryParse(row.Cells[0].Value?.ToString(), out var id))
             {
                 MessageBox.Show("Id inválido do carro selecionado.");
                 return;

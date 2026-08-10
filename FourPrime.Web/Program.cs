@@ -1,4 +1,4 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using FourPrime.Infrastructure;
@@ -48,8 +48,8 @@ builder.Services.AddAuthentication(options =>
 .AddCookie("Cookies")
 .AddGoogle("Google", options =>
 {
-    options.ClientId = builder.Configuration["GoogleAuth:ClientId"];
-    options.ClientSecret = builder.Configuration["GoogleAuth:ClientSecret"];
+    options.ClientId = builder.Configuration["GoogleAuth:ClientId"] ?? "";
+    options.ClientSecret = builder.Configuration["GoogleAuth:ClientSecret"] ?? "";
     options.CallbackPath = "/signin-google";
 });
 
@@ -58,7 +58,7 @@ builder.Services.AddAuthentication(options =>
 // HttpClient (API)
 // =======================
 
-var apiUrl = builder.Configuration["ApiBaseUrl"];
+var apiUrl = builder.Configuration["ApiBaseUrl"] ?? "http://localhost:5138";
 
 builder.Services.AddHttpClient<IApiClient, ApiClient>(client =>
 {
